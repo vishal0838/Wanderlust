@@ -16,7 +16,7 @@
             <h3 class="show_title" style="font-size: 900; font-weight: 400"></h3>
             <br />
             <p>Owned by: <i>
-                <%= listing.owner.username %>
+                <%= listing.owner ? listing.owner.username : "Unknown User" %>
               </i></p>
             <p>
               <%= listing.description %>
