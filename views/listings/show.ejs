@@ -16,7 +16,7 @@
             <h3 class="show_title" style="font-size: 900; font-weight: 400"></h3>
             <br />
             <p>Owned by: <i>
-                <%= listing.owner.username ? listing.owner.username : "Unknown User" %>
+                <%= listing.owner ? listing.owner.username : "Unknown User" %>
               </i></p>
             <p>
               <%= listing.description %>
@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      <% if (currUser && listing.owner._id.equals(currUser._id)) {%>
+      <% if (currUser && listing.owner && listing.owner._id.equals(currUser._id)) { %>
       <div class="btns">
         <div class="btn btn-danger"><a style="text-decoration: none; color: white"
             href="/listings/<%= listing._id %>/edit">Edit</a></div>
@@ -92,7 +92,7 @@
         <% for (review of listing.reviews) { %>
           <div class="card col-6   mb-3" style="gap: 1rem;">
             <div class="card-body ">
-              <h5 class="card-title">@<%= review.author.username %></h5>
+              <h5 class="card-title">@<%= review.author ? review.author.username : "Anonymous" %></h5>
               <div class="card-text">
                 <%= review.comment %>
               </div>
