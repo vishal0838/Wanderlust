@@ -3,7 +3,7 @@
 <body>
     <br><br>
   <h2>Edit Your Listing</h2>
-  <form method="post" action="/listings/<%= listing._id %>?_method=put">
+  <form method="post" action="/listings/<%= listing._id %>?_method=put" enctype="multipart/form-data">
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
 
@@ -29,15 +29,19 @@
       />
     </div>
 
-    <div class="mb-3">
-      <label for="image" class="form-label">Image Link</label>
+    <div>
+      <p>Current image:</p>
+      <img src="<%= originalImageUrl %>" alt="" height="200px" width="400px">
+    </div>
+
+    <div class="mb-3 mt-3">
+      <label for="image" class="form-label">Upload New Image</label>
 
       <input
-        type="text"
+        type="file"
         name="listing[image][url]"
         id=""
         class="form-control"
-        value="<%= listing.image.url %>"
       />
     </div>
     <div class="mb-3">

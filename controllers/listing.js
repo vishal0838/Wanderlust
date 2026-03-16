@@ -1,4 +1,8 @@
 const Listing = require("../models/listing.js");
+// const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+// const mapToken = process.env.MAP_TOKEN;
+// const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+
 
 module.exports.index = async (req, res) => {
         let allListings = await Listing.find({});
@@ -17,8 +21,11 @@ module.exports.edit = async (req, res) => {
         req.flash("error", "Listing you requested for does not exist!")
         return res.redirect("/listings")
     }
+
+    let originalImageUrl = listing.image.url; 
+    originalImageUrl = originalImageUrl.replace("/uploads", "/upload/h_300,w_250");
     req.flash("success", "Listing Updated!")
-    res.render("listings/edit.ejs", {listing});
+    res.render("listings/edit.ejs", {listing, originalImageUrl});
 };
 
 module.exports.show = async (req, res) => {
@@ -40,9 +47,21 @@ module.exports.show = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-
+    // let response = await geocodingClient.forwardGeocode({
+    //     query: 'New Delhi, India',
+    //     limit: 1,
+    // })
+    //     .send()
+    // console.log(response.body.features[0].geometry);
+    // res.send("done")
+    
+  
+    
+    let url = req.file.path;
+    let filename = req.file.filename;
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+    newListing.image = {url, filename};
     await newListing.save();
     req.flash("success", "New Listing Created!")
     res.redirect("/listings");
@@ -50,7 +69,17 @@ module.exports.create = async (req, res) => {
 
 module.exports.update = async (req,res) => {
     let {id} = req.params;
-    await Listing.findByIdAndUpdate(id , { ...req.body.listing });
+    let listing = await Listing.findByIdAndUpdate(id , { ...req.body.listing });
+
+    if (typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = {url, filename};
+        await listing.save();
+    }
+
+    
+
     req.flash("success", "Listing Updated!")
     res.redirect(`/listings/${id}`);
     

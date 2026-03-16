@@ -1,7 +1,11 @@
 const express = require("express");
+
 const router = express.Router();
 const Listing = require("../models/listing.js");
+const {storage} = require("../cloudconfig.js");
 
+const multer = require("multer");
+const upload = multer({ storage });
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("../schema.js");
@@ -26,16 +30,40 @@ const validateListing  = (req, res, next) => {
 router
     .route("/")
     .get(wrapAsync(listingControllers.index))
-    .post(isLoggedIn, validateListing , wrapAsync(listingControllers.create))
+    .post(
+        isLoggedIn, 
+         
+        upload.single("listing[image][url]"),
+        validateListing,
+        wrapAsync(listingControllers.create)
+    )
 
 
 //New Route
 router.get("/new", isLoggedIn, listingControllers.renderNewForm);
 
+//Search Bar Route
+router.get("/search", wrapAsync(async (req, res) => {
+    let { destination } = req.query;
+
+    const listing = await Listing.findOne({
+        $or: [
+            { title: { $regex: destination, $options: "i" } },
+            { location: { $regex: destination, $options: "i" } },
+            { country: { $regex: destination, $options: "i" } }
+        ]
+    });
+
+    if(listing) {
+        res.redirect(`/listings/${listing._id}`);
+    } else {
+        res.send("Listing not found");
+    }
+}));
 
 router.route("/:id")
     .get(wrapAsync(listingControllers.show))
-    .put(isLoggedIn,isOwner,validateListing ,wrapAsync(listingControllers.update))
+    .put(isLoggedIn,isOwner,upload.single("listing[image][url]"),validateListing ,wrapAsync(listingControllers.update))
     .delete(isLoggedIn,isOwner,wrapAsync(listingControllers.delete));
 
 

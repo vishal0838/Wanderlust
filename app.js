@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV != "production") {
+    require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,9 +18,31 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const MongoStore = require('connect-mongo').default;
+
+
+
+
+
+
+const port = 8080;
+const dburl = process.env.ATLASDB_URL
+
+const store = MongoStore.create({
+    mongoUrl: dburl, 
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+    console.log("Error in Mongo Session Store", err);
+});
 
 const sessionOptions = {
-    secret: "supersecret", 
+    store,
+    secret: process.env.SECRET, 
     resave: false, 
     saveUninitialized: true,
     cookie: {
@@ -26,9 +52,9 @@ const sessionOptions = {
     }, 
 }
 
-
-const port = 8080;
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+store.on("error", () => {
+    console.log("Error in Mongo Session Store", err);
+});
 
 //Middlewears
 app.set("view engine", "ejs");
@@ -60,7 +86,7 @@ main()
     });
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dburl);
 }
 
 

@@ -1,8 +1,135 @@
 <% layout("/layouts/boilerplate.ejs") %> 
 
-<br>
+<!-- <br>
 <h3>All listings:</h3> 
-<br>
+<br> -->
+
+<style>
+#filters {
+    display: flex;
+    align-items: center;
+    margin: 1rem 2rem;
+    /* This allows the container to handle the switch and filters in one line */
+    justify-content: space-between; 
+
+}
+
+/* 1. Create a wrapper for just the icons to handle scrolling */
+.filter-container {
+    display: flex;
+    align-items: center;
+    overflow-x: auto; /* Enables horizontal swipe on mobile */
+    scroll-behavior: smooth;
+    flex-grow: 1; /* Takes up available space */
+}
+
+.form-switch {
+    text-align: center;
+    padding: 1rem;
+    height: 4rem;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.filter-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.filter-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.filter {
+    text-align: center;
+    margin-right: 2rem;
+    opacity: 0.7;
+    flex-shrink: 0; /* CRITICAL: Prevents icons from squishing */
+    min-width: 60px;
+}
+
+.filter:hover {
+    opacity: 1;
+    cursor: pointer;
+    border-bottom: 2px solid black; /* Adds a nice visual cue */
+}
+
+.filter p {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+/* 2. Styling the Tax Switch to stay visible */
+.tax-toggle {
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    height: 3.5rem;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Keeps text on one line */
+    margin-left: 1rem;
+}
+
+/* Mobile Tweak: If the screen is very small, stack them or hide text */
+@media (max-width: 600px) {
+    .tax-toggle {
+        display: none; /* Often hidden on mobile to save space, or kept simplified */
+    }
+}
+</style>
+
+<div id="filters">
+    <div class="filter">
+        <i class="fa-solid fa-fire"></i>
+        <p>Trending</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-bed"></i>
+        <p>Rooms</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-mountain-city"></i>
+        <p>Iconic cities</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-fort-awesome"></i>
+        <p>Castles</p> 
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-person-swimming"></i>
+        <p>Amazing Pools</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-campground"></i>
+        <p>Camping</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-cow"></i>
+        <p>Farms</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-snowflake"></i>
+        <p>Arctic</p>
+    </div>
+    <div class="filter">
+        <i class="fa-solid fa-sailboat"></i>
+        <p>Houseboat</p>
+    </div>
+    <div class="filter">
+        <i class="fa-brands fa-searchengin"></i>
+        <p>New</p>
+    </div>
+
+    <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Display total taxes</label>
+    </div>
+</div>
 
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
 
@@ -23,6 +150,7 @@
                     <div class="card-body">
                         <p><b><%= listing.title %></b></p>
                         &#8377;<%= listing.price ? listing.price.toLocaleString('en-IN') : 1000 %>/night
+                        <i class="tax-info">&nbsp; &nbsp; +18% GST </i>
                     </div>
 
                 </div>
@@ -33,3 +161,19 @@
     <% } %>
 
 </div>
+
+<script>
+    let taxSwitch = document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (info of taxInfo) {
+            if (info.style.display != "inline") {
+                info.style.display = "inline"
+            } else {
+                info.style.display = "none";
+            }
+            
+        }
+        
+    });
+</script>
