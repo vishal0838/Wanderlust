@@ -30,6 +30,7 @@ module.exports.edit = async (req, res) => {
 
 module.exports.show = async (req, res) => {
     let {id} = req.params;
+
     const listing = await Listing.findById(id)
         .populate({path: 'reviews', 
             populate: {
@@ -58,11 +59,12 @@ module.exports.create = async (req, res) => {
   
     
     let url = req.file.path;
-    newListing.owner = req.user._id;
+    
     let filename = req.file.filename;
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
     newListing.image = {url, filename};
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("success", "New Listing Created!")
     res.redirect("/listings");
