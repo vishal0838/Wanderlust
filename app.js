@@ -52,7 +52,7 @@ const sessionOptions = {
     }, 
 }
 
-store.on("error", () => {
+store.on("error", (err) => {
     console.log("Error in Mongo Session Store", err);
 });
 
@@ -113,7 +113,11 @@ app.get("/demoUser", async (req, res) => {
 
     let registeredUser = await User.register(fakeUser, "hello");
     res.send(registeredUser);
-})
+});
+
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 // All your routes here
 app.use("/listings", listingsRouter);
