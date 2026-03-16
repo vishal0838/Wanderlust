@@ -36,6 +36,7 @@
 
       <% if (currUser && listing.owner && listing.owner._id.equals(currUser._id)) { %>
       <div class="btns">
+       
         <div class="btn btn-danger"><a style="text-decoration: none; color: white"
             href="/listings/<%= listing._id %>/edit">Edit</a></div>
 
@@ -45,7 +46,6 @@
         </form>
       </div>
       <% } %>
-
     </div>
 
     <hr>
@@ -86,6 +86,13 @@
       <hr>
 
       <% } %>
+
+      <% if (!currUser)  {%>
+        <div>
+          <p>Login to create reviews</p>
+        </div>
+      <% } %>
+
       <p><b>All Reviews:</b></p>
 
       <div class="row">
