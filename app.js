@@ -25,8 +25,7 @@ const MongoStore = require('connect-mongo').default;
 
 
 
-const port = 8080;
-const dburl = process.env.ATLASDB_URL
+const port = process.env.PORT || 8080;const dburl = process.env.ATLASDB_URL
 
 const store = MongoStore.create({
     mongoUrl: dburl, 
