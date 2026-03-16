@@ -90,9 +90,6 @@ async function main() {
 }
 
 
-app.get("/", (req, res) => {
-    res.send("Root is working");
-});
 
 app.use((req, res, next) => {
     res.locals.currUser = req.user;
