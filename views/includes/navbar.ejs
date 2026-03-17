@@ -12,9 +12,29 @@
   .search-btn i {
     display: inline;
   }
+
+  .navbar-collapse{
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+@media (max-width: 768px){
+
+.navbar-collapse{
+    background: white;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-nav{
+    gap: 10px;
+}
+
+}
 </style>
 
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top navbar-collapse">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

@@ -131,6 +131,7 @@ body {
     .show-out{
         flex-direction:column;
         padding:1rem;
+        width: 100%;
     }
 
     .card-r img{

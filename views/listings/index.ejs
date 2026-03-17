@@ -71,16 +71,61 @@
     margin-left: 1rem;
 }
 
+
 /* Mobile Tweak: If the screen is very small, stack them or hide text */
 @media (max-width: 600px) {
     .tax-toggle {
         display: none; /* Often hidden on mobile to save space, or kept simplified */
     }
+
+   
+}
+
+#filters{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:1rem 2rem;
+}
+
+.filter-container{
+  display:flex;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+}
+
+.filter{
+  text-align:center;
+  margin-right:2rem;
+  opacity:0.7;
+  min-width:70px;
+  flex-shrink:0;
+}
+
+.filter:hover{
+  opacity:1;
+  cursor:pointer;
+}
+
+.filter p{
+  font-size:0.75rem;
+}
+
+.filter-container::-webkit-scrollbar{
+  display:none;
+}
+
+.tax-toggle{
+  border:1px solid #ddd;
+  border-radius:1rem;
+  padding:0.5rem 1rem;
+  white-space:nowrap;
 }
 </style>
 
-<div id="filters">
-    <div class="filter">
+<div id="filters" class="filters">
+    <div class="filter-container">
+        <div class="filter" >
         <i class="fa-solid fa-fire"></i>
         <p>Trending</p>
     </div>
@@ -129,6 +174,8 @@
         <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
         <label class="form-check-label" for="switchCheckDefault">Display total taxes</label>
     </div>
+    </div>
+    
 </div>
 
 <div class="row">
