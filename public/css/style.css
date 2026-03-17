@@ -104,6 +104,18 @@ body {
 
 
 /* //Show Route */
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btns .btn {
+    width: 100%;
+}
+
 .show-out {
     height: fit-content;
     width: fit-content;
